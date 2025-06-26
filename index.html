@@ -20,6 +20,7 @@
             overflow-x: hidden;
         }
         
+        
         .container {
             width: 100%;
             margin: 0 auto;
@@ -303,6 +304,30 @@
         }
         
         /* Стили для покупки звезд */
+.input-with-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .input-field {
+        padding-right: 70px; /* Оставляем место для кнопки */
+    }
+    .self-btn {
+        position: absolute;
+        right: 8px;
+        background: none;
+        border: none;
+        color: #007aff;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 6px;
+    }
+    .self-btn:hover {
+        background-color: rgba(0, 122, 255, 0.1);
+    }
+    
+
         .buy-stars-container {
             display: flex;
             flex-direction: column;
@@ -654,15 +679,16 @@
         <div class="page" id="buy-stars">
     <div class="content">
         <div class="buy-stars-container">
-            <!-- Поле ввода получателя -->
-            <input type="text" class="input-field" placeholder="Введите @username получателя">
-            
+    <div class="input-with-btn">
+        <input type="text" class="input-field" id="recipient-username" placeholder="Введите @username получателя">
+        <button class="self-btn" id="self-recipient">Себе</button>
+    </div>
             <!-- Блок выбора количества звезд -->
             <div class="stars-section">
                 <div class="section-title">STARS</div>
                 <div class="stars-grid">
                     <!-- Вариант 50 звезд -->
-                    <div class="stars-option active" data-amount="50" data-price-ton="0.2951" data-price-rub="25.50" data-price-usd="0.35">
+                    <div class="stars-option active" data-amount="50" data-price-ton="0.2950" data-price-rub="82.50" data-price-usd="1.06">
                         <div class="stars-amount">50</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
@@ -671,7 +697,7 @@
                     </div>
                     
                     <!-- Вариант 100 звезд -->
-                    <div class="stars-option" data-amount="100" data-price-ton="0.5902" data-price-rub="51.00" data-price-usd="0.70">
+                    <div class="stars-option" data-amount="100" data-price-ton="0.5899" data-price-rub="165.00" data-price-usd="2.11">
                         <div class="stars-amount">100</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
@@ -680,7 +706,7 @@
                     </div>
                     
                     <!-- Вариант 1000 звезд -->
-                    <div class="stars-option" data-amount="1000" data-price-ton="5.9020" data-price-rub="510.00" data-price-usd="7.00">
+                    <div class="stars-option" data-amount="1000" data-price-ton="5.8992" data-price-rub="1650.00" data-price-usd="21.10">
                         <div class="stars-amount">1000</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
@@ -689,7 +715,7 @@
                     </div>
                     
                     <!-- Вариант 5000 звезд -->
-                    <div class="stars-option" data-amount="5000" data-price-ton="29.5100" data-price-rub="2550.00" data-price-usd="35.00">
+                    <div class="stars-option" data-amount="5000" data-price-ton="29.4959" data-price-rub="8250.00" data-price-usd="105.50">
                         <div class="stars-amount">5000</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
@@ -779,6 +805,26 @@
             // Инициализация Telegram WebApp
             const tg = window.Telegram.WebApp;
             tg.expand();
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const tg = window.Telegram.WebApp;
+    const user = tg.initDataUnsafe.user;
+    const recipientInput = document.getElementById('recipient-username');
+    const selfBtn = document.getElementById('self-recipient');
+
+    if (user && user.username) {
+        selfBtn.addEventListener('click', function() {
+            recipientInput.value = `@${user.username}`;
+        });
+        
+        // Автозаполнение при загрузке (опционально)
+        if (!recipientInput.value) {
+            recipientInput.value = `@${user.username}`;
+        }
+    } else {
+        selfBtn.style.display = 'none';
+    }
+});
             
             // Получаем данные пользователя из Telegram
             if (tg.initDataUnsafe.user) {
@@ -1077,6 +1123,9 @@
     // Инициализация при загрузке
     updatePriceDisplay();
 });
+
+
+
     </script>
 </body>
 </html>
