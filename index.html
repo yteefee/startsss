@@ -304,27 +304,31 @@
         }
         
         /* Стили для покупки звезд */
-.input-with-btn {
+ .recipient-wrapper {
         position: relative;
-        display: flex;
-        align-items: center;
-    }
-    .input-field {
-        padding-right: 70px; /* Оставляем место для кнопки */
+        margin-bottom: 16px;
     }
     .self-btn {
         position: absolute;
         right: 8px;
-        background: none;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
         border: none;
         color: #007aff;
         font-size: 14px;
         cursor: pointer;
-        padding: 4px 8px;
-        border-radius: 6px;
+        padding: 0 8px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        z-index: 2;
     }
-    .self-btn:hover {
-        background-color: rgba(0, 122, 255, 0.1);
+    .input-field {
+        padding-right: 60px;
+        width: 100%;
+        position: relative;
+        z-index: 1;
     }
     
 
@@ -679,8 +683,9 @@
         <div class="page" id="buy-stars">
     <div class="content">
         <div class="buy-stars-container">
-    <div class="input-with-btn">
-        <input type="text" class="input-field" id="recipient-username" placeholder="Введите @username получателя">
+    <div class="recipient-wrapper">
+        <input type="text" class="input-field" id="recipient-username" 
+               placeholder="Введите @username получателя" value="">
         <button class="self-btn" id="self-recipient">Себе</button>
     </div>
             <!-- Блок выбора количества звезд -->
@@ -808,21 +813,31 @@
 
         document.addEventListener('DOMContentLoaded', function() {
     const tg = window.Telegram.WebApp;
+    if (!tg.initDataUnsafe?.user) return;
+    
     const user = tg.initDataUnsafe.user;
     const recipientInput = document.getElementById('recipient-username');
     const selfBtn = document.getElementById('self-recipient');
 
-    if (user && user.username) {
-        selfBtn.addEventListener('click', function() {
+    // Обработчик клика по кнопке "Себе"
+    selfBtn.addEventListener('click', function() {
+        if (user.username) {
             recipientInput.value = `@${user.username}`;
-        });
-        
-        // Автозаполнение при загрузке (опционально)
-        if (!recipientInput.value) {
-            recipientInput.value = `@${user.username}`;
+            // Можно добавить анимацию или feedback
+            this.style.color = '#4CAF50';
+            setTimeout(() => this.style.color = '#007aff', 500);
         }
-    } else {
+    });
+
+    // Автозаполнение при загрузке, если поле пустое
+    if (user.username && !recipientInput.value.trim()) {
+        recipientInput.value = `@${user.username}`;
+    }
+    
+    // Скрываем кнопку, если username недоступен
+    if (!user.username) {
         selfBtn.style.display = 'none';
+        recipientInput.style.paddingRight = '16px';
     }
 });
             
