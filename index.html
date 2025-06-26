@@ -406,33 +406,52 @@
         }
         
         /* Стили для платежных методов */
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 16px;
-        }
-        
-        .payment-option {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #2c2c2e;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 14px;
-        }
-        
-        .payment-option.active {
-            background-color: #007aff;
-        }
-        
-        .payment-icon {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
-            margin-right: 8px;  
-        }
+        /* Новые стили для способов оплаты */
+.payment-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.payment-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #2c2c2e;
+    border-radius: 10px;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.payment-option:hover {
+    background-color: #3a3a3c;
+}
+
+.payment-option.active {
+    background-color: #007aff;
+    border-color: #007aff;
+}
+
+.payment-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.payment-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.payment-option.active .payment-label {
+    color: white;
+}
         
         .confirm-button {
             background-color: #007aff;
@@ -693,7 +712,7 @@
                 <div class="section-title">STARS</div>
                 <div class="stars-grid">
                     <!-- Вариант 50 звезд -->
-                    <div class="stars-option active" data-amount="50" data-price-ton="0.2950" data-price-rub="82.50" data-price-usd="1.06">
+                    <div class="stars-option active" data-amount="50" data-price-ton="0.2950" data-price-rub="82.50" data-price-usd="1.06" data-price-eur="0.90">
                         <div class="stars-amount">50</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
@@ -702,8 +721,16 @@
                     </div>
                     
                     <!-- Вариант 100 звезд -->
-                    <div class="stars-option" data-amount="100" data-price-ton="0.5899" data-price-rub="165.00" data-price-usd="2.11">
+                    <div class="stars-option" data-amount="100" data-price-ton="0.5899" data-price-rub="165.00" data-price-usd="2.11" data-price-eur="1.80">
                         <div class="stars-amount">100</div>
+                        <div class="stars-currency" style="color: #FFD700;">★</div>
+                        <div class="price-info">
+                            <span class="price-amount">≈0.5902 TON</span>
+                        </div>
+                    </div>
+
+                    <div class="stars-option" data-amount="500" data-price-ton="2.9235" data-price-rub="825.00" data-price-usd="10.55" data-price-eur="9.00">
+                        <div class="stars-amount">500</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
                             <span class="price-amount">≈0.5902 TON</span>
@@ -711,7 +738,7 @@
                     </div>
                     
                     <!-- Вариант 1000 звезд -->
-                    <div class="stars-option" data-amount="1000" data-price-ton="5.8992" data-price-rub="1650.00" data-price-usd="21.10">
+                    <div class="stars-option" data-amount="1000" data-price-ton="5.8992" data-price-rub="1650.00" data-price-usd="21.10" data-price-eur="18.00">
                         <div class="stars-amount">1000</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
@@ -720,7 +747,7 @@
                     </div>
                     
                     <!-- Вариант 5000 звезд -->
-                    <div class="stars-option" data-amount="5000" data-price-ton="29.4959" data-price-rub="8250.00" data-price-usd="105.50">
+                    <div class="stars-option" data-amount="5000" data-price-ton="29.4959" data-price-rub="8250.00" data-price-usd="105.50" data-price-eur="90.01">
                         <div class="stars-amount">5000</div>
                         <div class="stars-currency" style="color: #FFD700;">★</div>
                         <div class="price-info">
@@ -731,31 +758,42 @@
             </div>
             
             <!-- Блок выбора способа оплаты -->
-            <div class="stars-section">
-                <div class="section-title">Способы оплаты</div>
-                <div class="payment-methods">
-                    <div class="payment-option active" data-currency="ton">
-                        <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="payment-icon" alt="TON">
-                        TON
-                    </div>
-                    <div class="payment-option" data-currency="rub">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Ruble_sign.svg/1200px-Ruble_sign.svg.png" class="payment-icon" alt="RUB">
-                        RUB
-                    </div>
-                    <div class="payment-option" data-currency="usd">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" class="payment-icon" alt="USD">
-                        USD
-                    </div>
-                    <div class="payment-option" data-currency="eur">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png" class="payment-icon" alt="EUR">
-                        EUR
-                    </div>
-                    <div class="payment-option" data-currency="cs2">
-                        <img src="https://cryptologos.cc/logos/counter-strike-cs-logo.png" class="payment-icon" alt="CS2">
-                        CS2
-                    </div>
-                </div>
-            </div>
+<div class="stars-section">
+    <div class="section-title">Способы оплаты</div>
+    <div class="payment-options">
+        <!-- Первый ряд -->
+        <div class="payment-option active" data-currency="ton">
+            <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="payment-icon" alt="TON">
+            <span class="payment-label">TON</span>
+        </div>
+        
+        <div class="payment-option" data-currency="rub">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Ruble_sign.svg/1200px-Ruble_sign.svg.png" class="payment-icon" alt="RUB">
+            <span class="payment-label">RUB</span>
+        </div>
+        
+        <div class="payment-option" data-currency="rub2">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Ruble_sign.svg/1200px-Ruble_sign.svg.png" class="payment-icon" alt="RUB">
+            <span class="payment-label">RUB</span>
+        </div>
+        
+        <div class="payment-option" data-currency="cs2">
+            <img src="https://cryptologos.cc/logos/counter-strike-cs-logo.png" class="payment-icon" alt="CS2">
+            <span class="payment-label">CS2</span>
+        </div>
+        
+        <div class="payment-option" data-currency="usd">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" class="payment-icon" alt="USD">
+            <span class="payment-label">USD</span>
+        </div>
+        
+        <!-- Третий ряд -->
+        <div class="payment-option" data-currency="eur">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png" class="payment-icon" alt="EUR">
+            <span class="payment-label">EUR</span>
+        </div>
+    </div>
+</div>
             
             <!-- Кнопка подтверждения -->
             <button class="confirm-button" id="confirm-buy">Купить звёзды</button>
@@ -980,6 +1018,16 @@
 
             calculateValues();
         });
+
+        // Выбор способа оплаты
+const paymentOptions = document.querySelectorAll('.payment-option');
+paymentOptions.forEach(option => {
+    option.addEventListener('click', function() {
+        paymentOptions.forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
+        updatePriceDisplay();
+    });
+});
     </script>
 </body>
 </html>
