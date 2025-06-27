@@ -175,32 +175,61 @@
         /* Стили для маркета */
          .market-actions {
     display: flex;
-    justify-content: center; /* Центрируем кнопки */
-    gap: 10px; /* Уменьшаем промежуток между кнопками */
+    justify-content: space-between;
+    gap: 12px;
     margin-top: 20px;
-    padding: 0 10px; /* Добавляем отступы по бокам */
+    padding: 0 5%;
 }
 
 .market-action {
-    flex: none; /* Убираем автоматическое растягивание */
-    width: 48%; /* Фиксированная ширина кнопок */
-    max-width: 180px; /* Максимальная ширина */
+    flex: 1;
+    min-width: 0;
+    max-width: 55%; /* Увеличиваем максимальную ширину */
+}
+
+.action-card {
+    width: 100%;
+    height: 220px; /* Увеличиваем высоту карточек */
+    display: flex;
+    flex-direction: column;
+}
+
+.action-gif-container {
+    width: 100%;
+    height: 150px; /* Увеличиваем высоту GIF */
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.action-gif {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.action-content {
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
 }
 
 .action-button {
-    width: 100%; /* Занимает всю ширину родителя */
-    padding: 10px; /* Немного уменьшаем padding */
-    font-size: 15px; /* Чуть меньший размер шрифта */
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    height: 44px; /* Фиксированная высота кнопки */
 }
 
-        .action-card {
-            width: 100%;
-            background-color: #1e1e1e;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
+/* Для кнопки подтверждения */
+.confirm-button {
+    width: 92%;
+    max-width: 320px;
+    margin: 16px auto 0;
+    padding: 15px;
+    font-size: 16px;
+}
 
         .action-card:hover {
             transform: translateY(-5px);
