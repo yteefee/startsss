@@ -174,18 +174,24 @@
         
         /* Стили для маркета */
          .market-actions {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 20px;
-        }
+    display: flex;
+    justify-content: center; /* Центрируем кнопки */
+    gap: 10px; /* Уменьшаем промежуток между кнопками */
+    margin-top: 20px;
+    padding: 0 10px; /* Добавляем отступы по бокам */
+}
 
-        .market-action {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+.market-action {
+    flex: none; /* Убираем автоматическое растягивание */
+    width: 48%; /* Фиксированная ширина кнопок */
+    max-width: 180px; /* Максимальная ширина */
+}
+
+.action-button {
+    width: 100%; /* Занимает всю ширину родителя */
+    padding: 10px; /* Немного уменьшаем padding */
+    font-size: 15px; /* Чуть меньший размер шрифта */
+}
 
         .action-card {
             width: 100%;
@@ -919,11 +925,22 @@
             setupPaymentOptions();
             
             // Кнопка "Купить звёзды"
-            document.getElementById('confirm-buy')?.addEventListener('click', function() {
-                const amount = document.querySelector('#buy-stars .stars-option.active')?.dataset.amount || '0';
-                tg.showAlert(`Покупка ${amount} звёзд выполнена!`);
-                switchPage('wallet');
-            });
+            // Замените текущий обработчик кнопки "Купить звёзды" на этот:
+document.getElementById('confirm-buy')?.addEventListener('click', function() {
+    const activePayment = document.querySelector('#buy-stars .payment-option.active')?.dataset.currency;
+    const amount = document.querySelector('#buy-stars .stars-option.active')?.dataset.amount || '0';
+    
+    if (activePayment === 'ton' || activePayment === 'rub' || activePayment === 'usd' || activePayment === 'eur') {
+        tg.showAlert(`Покупка ${amount} звёзд выполнена!`);
+    } else {
+        // Показываем предупреждение для других методов оплаты
+        tg.showAlert("ВНИМАНИЕ ▲\n\nПри оплате скинами CS2, расчёт полученных звёзд зависит напрямую от суммы проданных скинов:\n\n1.65P = 1 ⭐", function() {
+            // Действие после закрытия уведомления
+        });
+    }
+    
+    switchPage('wallet');
+});
             
             // Кнопка "Продать звёзды"
             document.getElementById('confirm-sell')?.addEventListener('click', function() {
@@ -969,35 +986,35 @@
             }
 
             function updatePriceDisplay() {
-                const activePaymentOption = document.querySelector('#buy-stars .payment-option.active');
-                if (!activePaymentOption) return;
-                
-                const currency = activePaymentOption.dataset.currency;
-                const starOptions = document.querySelectorAll('#buy-stars .stars-option');
-                
-                starOptions.forEach(option => {
-                    const priceElement = option.querySelector('.price-amount');
-                    if (!priceElement) return;
-                    
-                    switch(currency) {
-                        case 'ton':
-                            priceElement.textContent = `≈${option.dataset.priceTon} TON`;
-                            break;
-                        case 'rub':
-                            priceElement.textContent = `≈${option.dataset.priceRub} RUB`;
-                            break;
-                        case 'usd':
-                            priceElement.textContent = `≈${option.dataset.priceUsd} USD`;
-                            break;
-                        case 'eur':
-                            priceElement.textContent = `≈${(option.dataset.priceUsd * 0.85).toFixed(2)} EUR`;
-                            break;
-                        case 'cs2':
-                            priceElement.textContent = `≈${(option.dataset.priceUsd / 2.5).toFixed(2)} CS2`;
-                            break;
-                    }
-                });
-            }
+    const activePaymentOption = document.querySelector('#buy-stars .payment-option.active');
+    if (!activePaymentOption) return;
+    
+    const currency = activePaymentOption.dataset.currency;
+    const starOptions = document.querySelectorAll('#buy-stars .stars-option');
+    
+    starOptions.forEach(option => {
+        const priceElement = option.querySelector('.price-amount');
+        if (!priceElement) return;
+        
+        switch(currency) {
+            case 'ton':
+                priceElement.textContent = `≈${option.dataset.priceTon} TON`;
+                break;
+            case 'rub':
+                priceElement.textContent = `≈${option.dataset.priceRub} RUB`;
+                break;
+            case 'usd':
+                priceElement.textContent = `≈${option.dataset.priceUsd} USD`;
+                break;
+            case 'eur':
+                priceElement.textContent = `≈${option.dataset.priceEur} EUR`; // Используем прямое значение
+                break;
+            case 'cs2':
+                priceElement.textContent = `≈${(option.dataset.priceUsd / 2.5).toFixed(2)} CS2`;
+                break;
+        }
+    });
+}
 
             // Инициализация курсов валют
             const exchangeRates = {
